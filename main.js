@@ -38,23 +38,13 @@ document.addEventListener('DOMContentLoaded', function (){
                     var lon = intData[i][1];
                     var lat = intData[i][2];
 
-                    // image size cannot be known before load
-                    if (intData[i][0] == 'gb') {
-                        var iconSize =  new OpenLayers.Size(19, 19);
-                    } else if (intData[i][0] == 'id') {
-                        var iconSize =  new OpenLayers.Size(17, 18);
-                    } else if (intData[i][0] == 'il') {
-                        var iconSize =  new OpenLayers.Size(18, 18);
-                    } else if (intData[i][0] == 'kz') {
-                        var iconSize =  new OpenLayers.Size(22, 14);
-                    } else if (intData[i][0] == 'staff') {
-                        var iconSize =  new OpenLayers.Size(25, 20);
-                    } else {
-                        var iconSize =  new OpenLayers.Size(17, 14);
-                    }
+                    var iconURL = 'http://krautchan.net' + intData[i][3];
+
+                    var iconImage = new Image();
+                    iconImage.src = iconURL;
+                    iconSize = new OpenLayers.Size(iconImage.width, iconImage.height);
 
                     var iconOffset = new OpenLayers.Pixel(-(iconSize.w/2), -iconSize.h);
-                    var iconURL = 'http://krautchan.net' + intData[i][3];
 
                     var marker = new OpenLayers.Marker(
                         new OpenLayers.LonLat(lon, lat),
