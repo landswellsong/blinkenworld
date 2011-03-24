@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function (){
                     }
 
                     var iconOffset = new OpenLayers.Pixel(-(iconSize.w/2), -iconSize.h);
-                    var iconURL = 'http://krautchan.net/images/balls/' + intData[i][0] + '.png';
+                    var iconURL = 'http://krautchan.net' + intData[i][3];
 
                     var marker = new OpenLayers.Marker(
                         new OpenLayers.LonLat(lon, lat),
