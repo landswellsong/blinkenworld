@@ -27,10 +27,10 @@ map.zoomToMaxExtent();
 document.addEventListener('DOMContentLoaded', function (){
     var markersLayer = new OpenLayers.Layer.Markers('Countryballs');
 
-    var req = new XMLHttpRequest();  
-    req.open('GET', 'http://krautchan.net/ajax/geoip/lasthour', true);  
+    var req = new XMLHttpRequest();
+    req.open('GET', 'http://krautchan.net/ajax/geoip/lasthour', true);
     req.onreadystatechange = function(e) {
-        if (req.readyState == 4) {  
+        if (req.readyState == 4) {
             if(req.status == 200) {
                 intData = JSON.parse(req.responseText)["data"];
 
@@ -50,10 +50,10 @@ document.addEventListener('DOMContentLoaded', function (){
                         new OpenLayers.LonLat(lon, lat),
                         new OpenLayers.Icon(iconURL, iconSize, iconOffset)
                     );
-            
+
                     markersLayer.addMarker(marker);
                 };
-                
+
                 map.addLayer(markersLayer);
                 markersLayer.setVisibility(true);
             } else {
