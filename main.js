@@ -35,24 +35,24 @@ document.addEventListener('DOMContentLoaded', function (){
                 intData = JSON.parse(req.responseText)["data"];
 
                 for (i in intData) {
-                    var lon = intData[i][1];
-                    var lat = intData[i][2];
-
-                    var iconURL = 'http://krautchan.net' + intData[i][3];
-
                     var iconImage = new Image();
-                    iconImage.src = iconURL;
-                    iconSize = new OpenLayers.Size(iconImage.width, iconImage.height);
 
-                    var iconOffset = new OpenLayers.Pixel(-(iconSize.w/2), -iconSize.h);
+                    iconImage.lon = intData[i][1];
+                    iconImage.lat = intData[i][2];
+                    iconImage.src = 'http://krautchan.net' + intData[i][3];
 
-                    var marker = new OpenLayers.Marker(
-                        new OpenLayers.LonLat(lon, lat),
-                        new OpenLayers.Icon(iconURL, iconSize, iconOffset)
-                    );
+                    iconImage.onload = function(e) {
+                        iconSize = new OpenLayers.Size(this.naturalWidth, this.naturalHeight);
+                        var iconOffset = new OpenLayers.Pixel(-(iconSize.w/2), -iconSize.h);
 
-                    markersLayer.addMarker(marker);
-                };
+                        var marker = new OpenLayers.Marker(
+                            new OpenLayers.LonLat(this.lon, this.lat),
+                            new OpenLayers.Icon(this.src, iconSize, iconOffset)
+                        );
+
+                        markersLayer.addMarker(marker);
+                    }
+                }
 
                 map.addLayer(markersLayer);
                 markersLayer.setVisibility(true);
