@@ -37,12 +37,22 @@ document.addEventListener('DOMContentLoaded', function (){
                 for (i in intData) {
                     var iconImage = new Image();
 
+		    iconImage.crossOrigin = 'Benis';
                     iconImage.lon = intData[i][1];
                     iconImage.lat = intData[i][2];
                     iconImage.src = 'http://krautchan.net' + intData[i][3];
+		    iconImage.count = intData[i][4];
 
                     iconImage.onload = function(e) {
-                        iconSize = new OpenLayers.Size(this.naturalWidth, this.naturalHeight);
+			var factor = Math.ceil(Math.sqrt(this.count));
+			if (factor > 4) {
+			    factor = 4;
+			};
+			if (factor > 1) {
+			    var scaledImage = hqx(this, factor);
+			    this.src = scaledImage.toDataURL('image/png');
+			};
+                        iconSize = new OpenLayers.Size(this.naturalWidth * factor, this.naturalHeight * factor);
                         var iconOffset = new OpenLayers.Pixel(-(iconSize.w/2), -iconSize.h);
 
                         var marker = new OpenLayers.Marker(
