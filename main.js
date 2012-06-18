@@ -6,7 +6,7 @@ function key(canvas) {
         var r = pixels.data[i * 4 + 0];
         var g = pixels.data[i * 4 + 1];
         var b = pixels.data[i * 4 + 2];
-        if (r > '235' && g < '20' && b > '235') {
+        if (r == '254' && g == '254' && b == '254') {
             pixels.data[i * 4 + 3] = 0;
         };
     };
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function (){
 			    canvas.setAttribute('width', this.naturalWidth);
 			    canvas.setAttribute('height',this.naturalHeight);
 			    var context = canvas.getContext('2d');
-			    context.fillStyle = '#ff00ff';
+			    context.fillStyle = '#fefefe';
 			    context.fillRect(0, 0, canvas.width, canvas.height);
 			    context.drawImage(this, 0, 0);
 			    var scaledImage = hqx(canvas, factor);
