@@ -1,3 +1,18 @@
+function key(canvas) {
+    var context = canvas.getContext('2d');
+    var pixels = context.getImageData(0, 0, canvas.width, canvas.height);
+    var l = pixels.data.length / 4;
+    for (var i = 0; i < l; i++) {
+        var r = pixels.data[i * 4 + 0];
+        var g = pixels.data[i * 4 + 1];
+        var b = pixels.data[i * 4 + 2];
+        if (r > '235' && g < '20' && b > '235') {
+            pixels.data[i * 4 + 3] = 0;
+        };
+    };
+    context.putImageData(pixels, 0, 0);
+};
+
 var map = new OpenLayers.Map(
     'map',
     {maxResolution: 0.703125}
@@ -49,7 +64,15 @@ document.addEventListener('DOMContentLoaded', function (){
 			    factor = 4;
 			};
 			if (factor > 1) {
-			    var scaledImage = hqx(this, factor);
+			    var canvas = document.createElement('canvas');
+			    canvas.setAttribute('width', this.naturalWidth);
+			    canvas.setAttribute('height',this.naturalHeight);
+			    var context = canvas.getContext('2d');
+			    context.fillStyle = '#ff00ff';
+			    context.fillRect(0, 0, canvas.width, canvas.height);
+			    context.drawImage(this, 0, 0);
+			    var scaledImage = hqx(canvas, factor);
+			    key(scaledImage);
 			    this.src = scaledImage.toDataURL('image/png');
 			};
                         iconSize = new OpenLayers.Size(this.naturalWidth * factor, this.naturalHeight * factor);
