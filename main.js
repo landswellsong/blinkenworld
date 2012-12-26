@@ -18,26 +18,12 @@ var map = new OpenLayers.Map(
     {maxResolution: 0.703125}
 );
 
-var wmscURL = [
-    "http://wmsc1.terrapages.net/getmap?",
-    "http://wmsc2.terrapages.net/getmap?",
-    "http://wmsc3.terrapages.net/getmap?",
-    "http://wmsc4.terrapages.net/getmap?"
-];
-var terrapagesStreetLayer = new OpenLayers.Layer.WMS(
-    'TerraPages Street',
-    wmscURL,
-    {
-        layers: 'UnprojectedStreet',
-        format: 'image/jpeg'
-    },
-    {
-        buffer: 1,
-        isBaseLayer: true
-    }
-);
-map.addLayer(terrapagesStreetLayer);
+var osm = new OpenLayers.Layer.OSM();
+map.addLayer(osm);
 map.zoomToMaxExtent();
+
+var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984        
+var toProjection   = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
 
 document.addEventListener('DOMContentLoaded', function (){
     var markersLayer = new OpenLayers.Layer.Markers('Countryballs');
@@ -81,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function (){
                         var iconOffset = new OpenLayers.Pixel(-(iconSize.w/2), -iconSize.h);
 
                         var marker = new OpenLayers.Marker(
-                            new OpenLayers.LonLat(this.lon, this.lat),
+                            new OpenLayers.LonLat(this.lon, this.lat).transform( fromProjection, toProjection),
                             new OpenLayers.Icon(this.src, iconSize, iconOffset)
                         );
 
